@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <AssemblyVersion>0.3.0.0</AssemblyVersion>
+    <FileVersion>0.3.0.0</FileVersion>
+    <Version>0.3.0</Version>
+    <PackageTags>streamdeck elgato stream deck macro board</PackageTags>
+    <PackageIconUrl>https://raw.githubusercontent.com/OpenMacroBoard/StreamDeckSharp/master/doc/icon64.png</PackageIconUrl>
+    <PackageProjectUrl>https://github.com/something-insane/OpenMacroBoard.SDK</PackageProjectUrl>
+    <PackageLicenseUrl>MIT</PackageLicenseUrl>
+    <RepositoryUrl>https://github.com/something-insane/OpenMacroBoard.SDK</RepositoryUrl>
+    <Authors>Christian Wischenbart,David Sharer,Matt McCord</Authors>
+    <Company>OpenMacroBoard.NetCore.SDK</Company>
+    <Product />
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Drawing.Common" Version="4.5.1" />
+  </ItemGroup>
+
+</Project>
