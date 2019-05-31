@@ -1,4 +1,7 @@
-﻿using OpenMacroBoard.NetCore.SDK;
+﻿using System.Threading.Tasks;
+using MapDeck.Engine;
+using MapDeck.Screens;
+using OpenMacroBoard.NetCore.SDK;
 using StreamDeckSharp.NetCore;
 
 namespace MapDeck
@@ -10,6 +13,15 @@ namespace MapDeck
             using (var deck = StreamDeck.OpenDevice())
             {
                 deck.ClearKeys();
+                var screenManager = new ScreenManager(deck);
+                var titleScreen = new TitleScreen(screenManager);
+                var powerScreen = new PowersScreen(screenManager);
+
+                titleScreen.NextScreen = powerScreen;
+
+                titleScreen.Activate();
+
+                while (true) Task.Delay(1000).GetAwaiter().GetResult();
             }
         }
     }
