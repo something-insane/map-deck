@@ -5,7 +5,7 @@ namespace MapDeck
 {
     public static class SharedTiles
     {
-        public static KeyBitmap Logo() =>
+        public static KeyBitmap Logo =>
             KeyBitmap.Create.FromGraphics(72, 72, graphics =>
             {
                 graphics.Clear(Color.Red);
@@ -20,6 +20,15 @@ namespace MapDeck
                 graphics.DrawString("---->", Constants.DrawFont, Constants.WhiteBrush, Constants.TopLine);
                 graphics.DrawString("CONT-", Constants.DrawFont, Constants.WhiteBrush, Constants.MiddleLine);
                 graphics.DrawString("INUE", Constants.DrawFont, Constants.WhiteBrush, Constants.BottomLine);
+            });
+
+        public static KeyBitmap Move =>
+            KeyBitmap.Create.FromGraphics(72, 72, graphics =>
+            {
+                graphics.Clear(Color.Black);
+                graphics.DrawString("HOLD", Constants.DrawFont, Constants.WhiteBrush, Constants.TopLine);
+                graphics.DrawString("TO ", Constants.DrawFont, Constants.WhiteBrush, Constants.MiddleLine);
+                graphics.DrawString("MOVE", Constants.DrawFont, Constants.WhiteBrush, Constants.BottomLine);
             });
 
         public static KeyBitmap PieceLogo(Color background, Color foreground, string piece, bool isSelected) =>

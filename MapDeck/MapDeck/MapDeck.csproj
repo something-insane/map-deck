@@ -9,4 +9,13 @@
     <ProjectReference Include="..\StreamDeckSharp.NetCore\StreamDeckSharp.NetCore.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Assets\City.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Assets\Tree.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

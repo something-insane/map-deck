@@ -8,7 +8,7 @@ namespace MapDeck.Screens
         private string test = "";
         public TitleScreen(ScreenManager screenManager) : base(screenManager)
         {
-            this[3, 2] = SharedTiles.Logo();
+            this[3, 2] = SharedTiles.Logo;
         }
 
         public override string Name => "Title";
