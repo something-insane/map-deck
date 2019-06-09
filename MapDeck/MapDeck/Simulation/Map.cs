@@ -7,9 +7,9 @@ namespace MapDeck.Simulation
 {
     public class Map
     {
-        public Tile[,] Tiles = new Tile[3 * 8, 3 * 8];
+        public Tile[,] Tiles = new Tile[3 * 16, 3 * 16];
 
-        public Point CenterLocation = new Point(3 * 4, 3 * 4);
+        public Point CenterLocation = new Point(3 * 8, 3 * 8);
 
         public Map()
         {
@@ -28,6 +28,12 @@ namespace MapDeck.Simulation
             return Tiles[CenterLocation.X + offsetX, CenterLocation.Y + offsetY];
         }
 
+        public void MoveCenterLocation(int offsetX, int offsetY)
+        {
+            this.CenterLocation.X += offsetX * 3;
+            this.CenterLocation.Y += offsetY * 3;
+        }
+
         public KeyBitmap GetKeyBitmapFor(int offsetX, int offsetY, bool isZoomed)
         {
             if (!isZoomed)
@@ -36,6 +42,7 @@ namespace MapDeck.Simulation
                 return KeyBitmap.Create.FromGraphics(72, 72, g =>
                 {
                     g.DrawImage(image, new Rectangle(0, 0, 72, 72));
+                    g.DrawString($"{offsetX}, {offsetY}", Constants.TinyFont, Constants.CyanBrush, Constants.MiddleLine);
                 });
             }
             else
@@ -48,8 +55,11 @@ namespace MapDeck.Simulation
                         {
                             var x = 24 * i;
                             var y = 24 * j;
-                            var tile = this.GetOffsetTile(offsetX * 3 + i - 1, offsetY * 3 + j - 1);
+                            var tileOffsetX = offsetX * 3 + i - 1;
+                            var tileOffsetY = offsetY * 3 + j - 1;
+                            var tile = this.GetOffsetTile(tileOffsetX, tileOffsetY);
                             g.DrawImage(tile.NinthSize, new Rectangle(x, y, 24, 24));
+                            g.DrawString($"{tileOffsetX}, {tileOffsetY}", Constants.TinyFont, Constants.CyanBrush, new Point(x,y));
                         }
                     }
                 });

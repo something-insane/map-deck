@@ -1,18 +1,44 @@
 ﻿using System;
 using System.Drawing;
 using MapDeck.Engine;
+using MapDeck.Simulation;
+using MapDeck.Simulation.Powers;
 using OpenMacroBoard.NetCore.SDK;
 
 namespace MapDeck.Screens
 {
     public class PowersScreen : ScreenBase
     {
+        private Power[][] powerOptions = new Power[][] {
+            new Power[] {
+                new HumanHighDensity(),
+                new HumanLowDensity(),
+                new HumanResearch(),
+            },
+            new Power[] {
+                new LandscapeTree(),
+                new LandscapeSprout(),
+                new LandscapeLivestock(),
+            },
+            new Power[] {
+                new EnergyOil(),
+                new EnergySolar(),
+                new EnergyBattery(),
+            },
+            new Power[] {
+                new SpecialDelete(),
+                new SpecialEducation(),
+                new SpecialRoad(),
+            },
+        };
         private readonly int[] _selections = new int[4];
+        private readonly Player player;
         private WhileHoldScreenBase _targetExplainerScreen = null;
 
-        public PowersScreen(ScreenManager screenManager)
+        public PowersScreen(ScreenManager screenManager, Player player)
             : base(screenManager)
         {
+            this.player = player;
             this.Shuffle();
 
             this[5, 1] = KeyBitmap.Create.FromRgb(50, 50, 50);
@@ -42,6 +68,10 @@ namespace MapDeck.Screens
                             if (newKeyState.IsUp)
                             {
                                 var nextScreen = this.NextScreen ?? throw new InvalidOperationException($"{nameof(this.NextScreen)} not set.");
+                                this.player.HumanPower = this.powerOptions[0][this._selections[0] - 1];
+                                this.player.PlantPower = this.powerOptions[1][this._selections[1] - 1];
+                                this.player.EnergyPower = this.powerOptions[2][this._selections[2] - 1];
+                                this.player.SpecialPower = this.powerOptions[3][this._selections[3] - 1];
                                 nextScreen.Activate();
                             }
                             break;
@@ -66,41 +96,11 @@ namespace MapDeck.Screens
 
         private void UpdateColumn(int column, int newRow)
         {
-            var foreground = Color.DeepPink;
-            var background = Color.HotPink;
-            var name = "broken";
-            switch (column)
-            {
-                case 1:
-                    foreground = Color.Black;
-                    background = Color.White;
-                    name = "housing";
-                    this._targetExplainerScreen = new ExplainCityScreen(this.ScreenManager, this);
-                    break;
-                case 2:
-                    foreground = Color.DarkGreen;
-                    background = Color.PaleGreen;
-                    name = "plant";
-                    this._targetExplainerScreen = null;
-                    break;
-                case 3:
-                    foreground = Color.DarkRed;
-                    background = Color.LightPink;
-                    name = "power";
-                    this._targetExplainerScreen = null;
-                    break;
-                case 4:
-                    foreground = Color.DarkBlue;
-                    background = Color.PowderBlue;
-                    name = "special";
-                    this._targetExplainerScreen = null;
-                    break;
-            }
-
             this._selections[column - 1] = newRow;
-            this[column, 1] = SharedTiles.PieceLogo(background, foreground, "1", this._selections[column - 1] == 1);
-            this[column, 2] = SharedTiles.PieceLogo(background, foreground, "2", this._selections[column - 1] == 2);
-            this[column, 3] = SharedTiles.PieceLogo(background, foreground, "3", this._selections[column - 1] == 3);
+            var powerList = powerOptions[column - 1];
+            this[column, 1] = SharedTiles.PieceLogo(powerList[0], this._selections[column - 1] == 1);
+            this[column, 2] = SharedTiles.PieceLogo(powerList[1], this._selections[column - 1] == 2);
+            this[column, 3] = SharedTiles.PieceLogo(powerList[2], this._selections[column - 1] == 3);
         }
     }
 }

@@ -14,12 +14,14 @@ namespace MapDeck
             using (var deck = StreamDeck.OpenDevice())
             {
                 deck.ClearKeys();
+                var map = new Map();
+                var player = new Player();
+
                 var screenManager = new ScreenManager(deck);
                 var titleScreen = new TitleScreen(screenManager);
-                var powerScreen = new PowersScreen(screenManager);
+                var powerScreen = new PowersScreen(screenManager, player);
 
-                var map = new Map();
-                var mapScreen = new MapScreen(screenManager, map);
+                var mapScreen = new MapScreen(screenManager, map, player);
 
                 titleScreen.NextScreen = powerScreen;
                 powerScreen.NextScreen = mapScreen;
