@@ -16,12 +16,12 @@ namespace HidLibrary.NetCore
     public enum ShareMode
     {
         Exclusive = 0,
-        ////ShareRead = NativeMethods.FILE_SHARE_READ,
-        ////ShareWrite = NativeMethods.FILE_SHARE_WRITE
+        ShareRead = NativeMethods.FILE_SHARE_READ,
+        ShareWrite = NativeMethods.FILE_SHARE_WRITE
     }
 
-    ////public delegate void ReadCallback(HidDeviceData data);
-    ////public delegate void ReadReportCallback(HidReport report);
+    public delegate void ReadCallback(HidDeviceData data);
+    public delegate void ReadReportCallback(HidReport report);
     public delegate void WriteCallback(bool success);
 
     public interface IHidDevice : IDisposable
@@ -33,8 +33,8 @@ namespace HidLibrary.NetCore
         bool IsOpen { get; }
         bool IsConnected { get; }
         string Description { get; }
-        ////HidDeviceCapabilities Capabilities { get; }
-        ////HidDeviceAttributes Attributes { get;  }
+        HidDeviceCapabilities Capabilities { get; }
+        HidDeviceAttributes Attributes { get;  }
         string DevicePath { get; }
 
         bool MonitorDeviceEvents { get; set; }
@@ -45,20 +45,20 @@ namespace HidLibrary.NetCore
         
         void CloseDevice();
 
-        ////HidDeviceData Read();
+        HidDeviceData Read();
 
-        ////void Read(ReadCallback callback);
+        void Read(ReadCallback callback);
 
-        ////void Read(ReadCallback callback, int timeout);
+        void Read(ReadCallback callback, int timeout);
 
-        ////HidDeviceData Read(int timeout);
+        HidDeviceData Read(int timeout);
 
-        ////void ReadReport(ReadReportCallback callback);
+        void ReadReport(ReadReportCallback callback);
 
-        ////void ReadReport(ReadReportCallback callback, int timeout);
+        void ReadReport(ReadReportCallback callback, int timeout);
 
-        ////HidReport ReadReport(int timeout);
-        ////HidReport ReadReport();
+        HidReport ReadReport(int timeout);
+        HidReport ReadReport();
 
         bool ReadFeatureData(out byte[] data, byte reportId = 0);
 
@@ -76,15 +76,15 @@ namespace HidLibrary.NetCore
 
         void Write(byte[] data, WriteCallback callback, int timeout);
 
-        ////void WriteReport(HidReport report, WriteCallback callback);
+        void WriteReport(HidReport report, WriteCallback callback);
 
-        ////bool WriteReport(HidReport report);
+        bool WriteReport(HidReport report);
 
-        ////bool WriteReport(HidReport report, int timeout);
+        bool WriteReport(HidReport report, int timeout);
 
-        ////void WriteReport(HidReport report, WriteCallback callback, int timeout);
+        void WriteReport(HidReport report, WriteCallback callback, int timeout);
 
-        ////HidReport CreateReport();
+        HidReport CreateReport();
 
         bool WriteFeatureData(byte[] data);
     }

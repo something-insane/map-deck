@@ -10,6 +10,11 @@ namespace HidLibrary.NetCore
     {
         private static Guid _hidClassGuid = Guid.Empty;
 
+        public static bool IsConnected(string devicePath)
+        {
+            return EnumerateDevices().Any(x => x.Path == devicePath);
+        }
+
         public static HidDevice GetDevice(string devicePath)
         {
             return Enumerate(devicePath).FirstOrDefault();
@@ -23,6 +28,22 @@ namespace HidLibrary.NetCore
         public static IEnumerable<HidDevice> Enumerate(string devicePath)
         {
             return EnumerateDevices().Where(x => x.Path == devicePath).Select(x => new HidDevice(x.Path, x.Description));
+        }
+
+        public static IEnumerable<HidDevice> Enumerate(int vendorId, params int[] productIds)
+        {
+            return EnumerateDevices().Select(x => new HidDevice(x.Path, x.Description)).Where(x => x.Attributes.VendorId == vendorId && 
+                                                                                  productIds.Contains(x.Attributes.ProductId));
+        }
+
+        public static IEnumerable<HidDevice> Enumerate(int vendorId, int productId, ushort UsagePage)
+        {
+            return EnumerateDevices().Select(x => new HidDevice(x.Path, x.Description)).Where(x => x.Attributes.VendorId == vendorId &&
+                                                                                  productId == (ushort)x.Attributes.ProductId && (ushort)x.Capabilities.UsagePage == UsagePage);
+        }
+        public static IEnumerable<HidDevice> Enumerate(int vendorId)
+        {
+            return EnumerateDevices().Select(x => new HidDevice(x.Path, x.Description)).Where(x => x.Attributes.VendorId == vendorId);
         }
 
         internal class DeviceInfo { public string Path { get; set; } public string Description { get; set; } }
